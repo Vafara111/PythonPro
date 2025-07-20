@@ -1,0 +1,30 @@
+<div>
+    <div class="mb-4">
+        <form action="{{ url_for('add_task') }}" method="post" class="flex">
+            <input type="text" name="content" placeholder="input">
+            <button type="submit">Add</button>
+        </form>
+    </div>>
+
+    {% with massages = get_flashed_massages(with_categories=True) %}
+        {% if massages %}
+            {% for category, massage in massages %}
+                <div class="p-2 mb-2 text-white {{ 'bg-red-500' if category == 'error' else 'bg-green-500' }}">
+                    {{ massage }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+
+    <ul>
+        {% for task in tasks %}
+        <li>
+            <span>
+                {{ task.content }} ({{ task.date_created.strftime("%Y-%m-%d %H:%M") }})
+                <a href="{{ url_for('delete_task', id = task.id) }}">Deleted</a>
+            </span>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
